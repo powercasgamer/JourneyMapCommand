@@ -22,7 +22,14 @@ tasks {
 
 publishMods.modrinth {
   projectId.set("crx8wIYV")
-  type.set(ReleaseType.STABLE)
+  type.set(
+    if (project.versionString().contains("-SNAPSHOT")) {
+      ReleaseType.BETA
+    } else {
+      ReleaseType.STABLE
+    }
+  )
+  this.requires()
   file.set(platformExt.productionJar)
   changelog.set(releaseNotes)
   requires {
