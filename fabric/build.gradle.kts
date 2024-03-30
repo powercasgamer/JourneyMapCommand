@@ -18,8 +18,8 @@ dependencies {
 
   modImplementation(libs.cloudFabric)
   include(libs.cloudFabric)
-  implementation(libs.cloudMinecraftExtras)
-  include(libs.cloudMinecraftExtras)
+//  implementation(libs.cloudMinecraftExtras)
+//  include(libs.cloudMinecraftExtras)
 
   include(libs.adventurePlatformFabric)
   modImplementation(libs.adventurePlatformFabric)

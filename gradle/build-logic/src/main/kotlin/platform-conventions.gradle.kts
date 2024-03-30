@@ -28,5 +28,8 @@ publishMods.modrinth {
   requires {
     id = "lfHFW1mp"
   }
+  requires {
+    id = "P7dR8mSH"
+  }
   accessToken.set(providers.gradleProperty("modrinth-api-key"))
 }

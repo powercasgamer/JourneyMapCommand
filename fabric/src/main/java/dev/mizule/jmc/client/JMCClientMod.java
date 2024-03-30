@@ -24,6 +24,7 @@
  */
 package dev.mizule.jmc.client;
 
+import com.mojang.logging.LogUtils;
 import dev.mizule.jmc.BuildParameters;
 import dev.mizule.jmc.client.plugin.JMCJourneyMapPlugin;
 import journeymap.client.api.display.Waypoint;
@@ -41,12 +42,14 @@ import org.incendo.cloud.fabric.FabricClientCommandManager;
 import org.incendo.cloud.parser.ArgumentParseResult;
 import org.incendo.cloud.parser.aggregate.AggregateParser;
 import org.incendo.cloud.parser.standard.StringParser;
+import org.slf4j.Logger;
 
 import static net.kyori.adventure.text.Component.text;
 import static org.incendo.cloud.parser.standard.IntegerParser.integerParser;
 
 public class JMCClientMod implements ClientModInitializer {
 
+  private static final Logger LOGGER = LogUtils.getLogger();
   private final FabricClientCommandManager<FabricClientCommandSource> commandManager;
 
   public JMCClientMod() {
@@ -79,11 +82,13 @@ public class JMCClientMod implements ClientModInitializer {
             context.sender().getWorld().dimension(),
             context.get("location")
           );
-          client.sendMessage(text("Created waypoint " + context.get("name") + " at " + context.get("location")));
+          final BlockPos loc = context.get("location");
+          client.sendMessage(text("Created waypoint " + context.get("name") + " at " + loc.getX() + ", " + loc.getY() + ", " + loc.getZ()));
           try {
             JMCJourneyMapPlugin.instance().jmAPI.show(waypoint);
           } catch (Exception e) {
             context.sender().sendError(Component.literal("Failed to create waypoint"));
+            LOGGER.error("Failed to create waypoint", e);
           }
         })
     );
