@@ -2,6 +2,7 @@ plugins {
   id("quiet-fabric-loom")
   id("common-conventions")
   id("platform-conventions")
+  id("blossom-stuff")
 }
 
 val shade: Configuration by configurations.creating
@@ -59,4 +60,18 @@ JMCPlatform {
 publishMods.modrinth {
   modLoaders.add("fabric")
   minecraftVersions.add(minecraftVersion)
+}
+
+sourceSets {
+  main {
+    blossom {
+      javaSources {
+        property("version", project.versionString())
+        property("gitCommit", project.lastCommitHash(false))
+        property("minecraftVersion", libs.versions.minecraft.get())
+        property("fabricLoaderVersion", libs.versions.fabricLoader.get())
+        property("fabricApiVersion", libs.versions.fabricApi.get())
+      }
+    }
+  }
 }
