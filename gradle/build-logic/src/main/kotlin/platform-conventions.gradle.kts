@@ -21,7 +21,7 @@ tasks {
 }
 
 publishMods.modrinth {
-  projectId.set("cUhi3iB2")
+  projectId.set("crx8wIYV")
   type.set(ReleaseType.STABLE)
   file.set(platformExt.productionJar)
   changelog.set(releaseNotes)
