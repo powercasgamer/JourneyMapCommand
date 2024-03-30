@@ -3,6 +3,7 @@ plugins {
   id("common-conventions")
   id("platform-conventions")
   id("blossom-stuff")
+  id("org.jetbrains.gradle.plugin.idea-ext")
 }
 
 val shade: Configuration by configurations.creating
@@ -27,10 +28,6 @@ dependencies {
   modRuntimeOnly("curse.maven:journeymap-32274:5211236")
 }
 
-indra {
-  javaVersions().target(17)
-}
-
 tasks {
   shadowJar {
     configurations = listOf(shade)
@@ -41,7 +38,7 @@ tasks {
   processResources {
     val replacements = mapOf(
       "mod_id" to project.name,
-      "mod_name" to rootProject.name,
+      "mod_name" to rootProject.nameString(true),
       "version" to version.toString(),
       "description" to project.description,
       "github" to "https://github.com/powercasgamer/JourneyMapCommand"

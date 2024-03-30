@@ -24,7 +24,7 @@
  */
 package dev.mizule.jmc;
 
-class BuildParameters {
+public class BuildParameters {
     public static final String VERSION = "{{ version }}";
     public static final String GIT_COMMIT = "{{ gitCommit | default("unknown") }}";
     public static final String MINECRAFT_VERSION = "{{ minecraftVersion }}";

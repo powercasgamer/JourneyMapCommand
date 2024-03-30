@@ -24,6 +24,7 @@
  */
 package dev.mizule.jmc.client;
 
+import dev.mizule.jmc.BuildParameters;
 import dev.mizule.jmc.client.plugin.JMCJourneyMapPlugin;
 import journeymap.client.api.display.Waypoint;
 import net.fabricmc.api.ClientModInitializer;
@@ -41,6 +42,7 @@ import org.incendo.cloud.parser.ArgumentParseResult;
 import org.incendo.cloud.parser.aggregate.AggregateParser;
 import org.incendo.cloud.parser.standard.StringParser;
 
+import static net.kyori.adventure.text.Component.text;
 import static org.incendo.cloud.parser.standard.IntegerParser.integerParser;
 
 public class JMCClientMod implements ClientModInitializer {
@@ -82,6 +84,18 @@ public class JMCClientMod implements ClientModInitializer {
           } catch (Exception e) {
             context.sender().sendError(Component.literal("Failed to create waypoint"));
           }
+        })
+    );
+    this.commandManager.command(
+      builder.literal("info")
+        .handler(context -> {
+          final Audience client = FabricClientAudiences.of().audience();
+         client.sendMessage(text("hi :3"));
+         client.sendMessage(text("Version: " + dev.mizule.jmc.BuildParameters.VERSION));
+         client.sendMessage(text("Git Commit: " + BuildParameters.GIT_COMMIT));
+          client.sendMessage(text("Fabric Loader Version: " + BuildParameters.FABRIC_LOADER_VERSION));
+          client.sendMessage(text("Fabric API Version: " + BuildParameters.FABRIC_API_VERSION));
+          client.sendMessage(text("Minecraft Version: " + BuildParameters.MINECRAFT_VERSION));
         })
     );
   }

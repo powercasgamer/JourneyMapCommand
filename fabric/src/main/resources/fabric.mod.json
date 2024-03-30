@@ -27,6 +27,7 @@
     "fabric": "*",
     "fabric-permissions-api-v0": "*",
     "minecraft": "~1.20.4",
-    "journeymap": ">=5.9.24"
+    "journeymap": ">=5.9.24",
+    "cloud": "*"
   }
 }
