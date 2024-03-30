@@ -1,0 +1,83 @@
+[versions]
+adventure = "4.16.0"
+adventurePlatform = "4.3.2"
+cloud = "2.0.0-beta.4"
+cloudMinecraft = "2.0.0-beta.5"
+cloudModded = "2.0.0-beta.4"
+configurate = "4.2.0-SNAPSHOT"
+gson = "2.8.0"
+guava = "21.0"
+fabricApi = "0.96.11+1.20.4"
+fabricLoader = "0.15.7"
+minecraft = "1.20.4"
+adventurePlatformFabric = "5.12.0"
+mixin = "0.8.5"
+
+# buildSrc
+mod-publish-plugin = "0.5.1"
+indra = "3.1.3"
+blossom = "2.1.0"
+shadow = "8.1.7"
+kotlin = "1.9.23"
+gremlin = "0.0.6"
+idea-gradle = "1.1.8"
+run-task = "2.2.3"
+hangar-publish = "0.1.2"
+spotless = "6.25.0"
+ktlint = "1.0.1"
+testlogger = "4.0.0"
+junit = "5.10.2"
+truth = "1.4.2"
+
+[libraries]
+adventureBom = { group = "net.kyori", name = "adventure-bom", version.ref = "adventure" }
+adventureApi = { group = "net.kyori", name = "adventure-api" }
+adventurePlatformFabric = { group = "net.kyori", name = "adventure-platform-fabric", version.ref = "adventurePlatformFabric" }
+
+cloudBom = { group = "org.incendo", name = "cloud-bom", version.ref = "cloud" }
+cloudMinecraftBom = { module = "org.incendo:cloud-minecraft-bom", version.ref = "cloudMinecraft" }
+cloudCore = { group = "org.incendo", name = "cloud-core" }
+cloudMinecraftExtras = { group = "org.incendo", name = "cloud-minecraft-extras", version.ref = "cloudMinecraft" }
+cloudFabric = { group = "org.incendo", name = "cloud-fabric", version.ref = "cloudModded" }
+
+mixin = { group = "org.spongepowered", name = "mixin", version.ref = "mixin" }
+
+configurateCore = { group = "org.spongepowered", name = "configurate-core", version.ref = "configurate" }
+configurateHocon = { group = "org.spongepowered", name = "configurate-hocon", version.ref = "configurate" }
+
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
+
+fabricApi = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabricApi" }
+fabricLoader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabricLoader" }
+minecraft = { group = "com.mojang", name = "minecraft", version.ref = "minecraft" }
+
+# buildSrc
+build-indraCommon = { group = "net.kyori", name = "indra-common", version.ref = "indra" }
+build-indraLicenser = { group = "net.kyori", name = "indra-licenser-spotless", version.ref = "indra" }
+build-shadow = { group = "com.github.johnrengelman", name = "shadow", version.ref = "shadow" }
+build-mod-publish-plugin = { module = "me.modmuss50:mod-publish-plugin", version.ref = "mod-publish-plugin" }
+
+# build-logic stuff
+blossom = { module = "net.kyori:blossom", version.ref = "blossom" }
+indra-common = { module = "net.kyori:indra-common", version.ref = "indra" }
+indra-crossdoc = { module = "net.kyori:indra-crossdoc", version.ref = "indra" }
+indra-spotless = { module = "net.kyori:indra-licenser-spotless", version.ref = "indra" }
+indra-git = { module = "net.kyori:indra-git", version.ref = "indra" }
+shadow = { module = "io.github.goooler.shadow:shadow-gradle-plugin", version.ref = "shadow" }
+kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-std = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
+idea-gradle = { module = "gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext", version.ref = "idea-gradle" }
+gremlin-gradle = { module = "xyz.jpenilla:gremlin-gradle", version.ref = "gremlin" }
+gremlin-runtime = { module = "xyz.jpenilla:gremlin-runtime", version.ref = "gremlin" }
+run-task = { module = "xyz.jpenilla:run-task", version.ref = "run-task" }
+hangar-publish = { module = "io.papermc:hangar-publish-plugin", version.ref = "hangar-publish" }
+spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
+testlogger = { module = "com.adarshr:gradle-test-logger-plugin", version.ref = "testlogger" }
+
+[bundles]
+configurate = ["configurateCore", "configurateHocon"]
+
+[plugins]
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version.ref = "idea-gradle" }
