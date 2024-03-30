@@ -24,8 +24,6 @@ hangar-publish = "0.1.2"
 spotless = "6.25.0"
 ktlint = "1.0.1"
 testlogger = "4.0.0"
-junit = "5.10.2"
-truth = "1.4.2"
 
 [libraries]
 adventureBom = { group = "net.kyori", name = "adventure-bom", version.ref = "adventure" }
