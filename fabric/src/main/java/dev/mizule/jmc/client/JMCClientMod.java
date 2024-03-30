@@ -69,7 +69,7 @@ public class JMCClientMod implements ClientModInitializer {
     final Command.Builder<FabricClientCommandSource> builder = commandManager.commandBuilder("journeymapcommand", "jmc");
     this.commandManager.command(
       builder.literal("waypoint")
-        .required("name", StringParser.stringParser())
+        .required("name", StringParser.quotedStringParser())
         .required("location", locationParser)
         .handler(context -> {
           final Audience client = FabricClientAudiences.of().audience();
@@ -79,8 +79,9 @@ public class JMCClientMod implements ClientModInitializer {
             context.sender().getWorld().dimension(),
             context.get("location")
           );
+          client.sendMessage(text("Created waypoint " + context.get("name") + " at " + context.get("location")));
           try {
-          JMCJourneyMapPlugin.instance().jmAPI.show(waypoint);
+            JMCJourneyMapPlugin.instance().jmAPI.show(waypoint);
           } catch (Exception e) {
             context.sender().sendError(Component.literal("Failed to create waypoint"));
           }
@@ -90,9 +91,9 @@ public class JMCClientMod implements ClientModInitializer {
       builder.literal("info")
         .handler(context -> {
           final Audience client = FabricClientAudiences.of().audience();
-         client.sendMessage(text("hi :3"));
-         client.sendMessage(text("Version: " + dev.mizule.jmc.BuildParameters.VERSION));
-         client.sendMessage(text("Git Commit: " + BuildParameters.GIT_COMMIT));
+          client.sendMessage(text("hi :3"));
+          client.sendMessage(text("Version: " + dev.mizule.jmc.BuildParameters.VERSION));
+          client.sendMessage(text("Git Commit: " + BuildParameters.GIT_COMMIT));
           client.sendMessage(text("Fabric Loader Version: " + BuildParameters.FABRIC_LOADER_VERSION));
           client.sendMessage(text("Fabric API Version: " + BuildParameters.FABRIC_API_VERSION));
           client.sendMessage(text("Minecraft Version: " + BuildParameters.MINECRAFT_VERSION));

@@ -25,7 +25,7 @@ extensions.getByType(BasePluginExtension::class.java).archivesName.set(project.n
 indra {
   javaVersions {
     minimumToolchain(21)
-    target(21)
+    target(17)
   }
   mitLicense()
 

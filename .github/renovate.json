@@ -5,6 +5,7 @@
   ],
   "ignoreDeps": [
     "quiet-fabric-loom",
+    "fabric-loom",
     "com.mojang:minecraft"
     ]
 }

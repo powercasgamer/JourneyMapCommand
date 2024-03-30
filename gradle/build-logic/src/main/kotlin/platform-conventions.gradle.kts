@@ -25,5 +25,8 @@ publishMods.modrinth {
   type.set(ReleaseType.STABLE)
   file.set(platformExt.productionJar)
   changelog.set(releaseNotes)
-  accessToken.set(providers.environmentVariable("MODRINTH_TOKEN"))
+  requires {
+    id = "lfHFW1mp"
+  }
+  accessToken.set(providers.gradleProperty("modrinth-api-key"))
 }
