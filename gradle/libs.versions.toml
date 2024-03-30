@@ -5,8 +5,6 @@ cloud = "2.0.0-beta.4"
 cloudMinecraft = "2.0.0-beta.5"
 cloudModded = "2.0.0-beta.4"
 configurate = "4.2.0-SNAPSHOT"
-gson = "2.8.0"
-guava = "21.0"
 fabricApi = "0.96.11+1.20.4"
 fabricLoader = "0.15.7"
 minecraft = "1.20.4"
@@ -45,17 +43,11 @@ mixin = { group = "org.spongepowered", name = "mixin", version.ref = "mixin" }
 configurateCore = { group = "org.spongepowered", name = "configurate-core", version.ref = "configurate" }
 configurateHocon = { group = "org.spongepowered", name = "configurate-hocon", version.ref = "configurate" }
 
-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
-guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
-
 fabricApi = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabricApi" }
 fabricLoader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabricLoader" }
 minecraft = { group = "com.mojang", name = "minecraft", version.ref = "minecraft" }
 
 # buildSrc
-build-indraCommon = { group = "net.kyori", name = "indra-common", version.ref = "indra" }
-build-indraLicenser = { group = "net.kyori", name = "indra-licenser-spotless", version.ref = "indra" }
-build-shadow = { group = "com.github.johnrengelman", name = "shadow", version.ref = "shadow" }
 build-mod-publish-plugin = { module = "me.modmuss50:mod-publish-plugin", version.ref = "mod-publish-plugin" }
 
 # build-logic stuff
