@@ -34,6 +34,7 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.fabric.FabricClientAudiences;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import org.incendo.cloud.Command;
@@ -41,6 +42,7 @@ import org.incendo.cloud.SenderMapper;
 import org.incendo.cloud.execution.ExecutionCoordinator;
 import org.incendo.cloud.fabric.FabricClientCommandManager;
 import org.incendo.cloud.minecraft.modded.data.Coordinates;
+import org.incendo.cloud.minecraft.modded.parser.NamedColorParser;
 import org.incendo.cloud.parser.ArgumentParseResult;
 import org.incendo.cloud.parser.aggregate.AggregateParser;
 import org.incendo.cloud.parser.standard.StringParser;
@@ -75,7 +77,7 @@ public class JMCClientMod implements ClientModInitializer {
       builder.literal("waypoint")
         .required("name", StringParser.quotedStringParser())
         .required("location", CloudStuff.blockPosParser())
-//        .required("location", CloudStuff.columnPosParser())
+        .optional("color", NamedColorParser.namedColorParser())
         .handler(context -> {
           final Audience client = FabricClientAudiences.of().audience();
           final BlockPos loc = ((Coordinates.BlockCoordinates) context.get("location")).blockPos();
@@ -85,6 +87,10 @@ public class JMCClientMod implements ClientModInitializer {
             context.sender().getWorld().dimension(),
             loc
           );
+          if (context.optional("color").isPresent()) {
+            final ChatFormatting color = (ChatFormatting) context.optional("color").get();
+            waypoint.setColor(color.getColor());
+          }
           client.sendMessage(text("Created waypoint " + context.get("name") + " at " + loc.getX() + ", " + loc.getY() + ", " + loc.getZ()));
           try {
             JMCJourneyMapPlugin.instance().jmAPI.show(waypoint);

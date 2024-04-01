@@ -31,7 +31,7 @@ publishMods.modrinth {
   )
   this.requires()
   file.set(platformExt.productionJar)
-  changelog.set(releaseNotes)
+//  changelog.set(Files.readString(project.file("CHANGELOG.md").toPath()))
   requires {
     id = "lfHFW1mp"
   }

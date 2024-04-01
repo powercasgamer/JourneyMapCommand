@@ -21,6 +21,7 @@ git fetch --tags origin
 gh release create "$version" --latest --verify-tag --generate-notes --title "$version" **/build/libs/*-"$version".jar
 # Publish the release artifact
 ./gradlew publish -PforceSign=true
+./gradlew publishModrinth
 
 # Increment the version and add the "-SNAPSHOT" suffix to gradle.properties
 new_version=$(echo "$version" | awk -F. '{$NF++;print}' | sed 's/ /./g')-SNAPSHOT
