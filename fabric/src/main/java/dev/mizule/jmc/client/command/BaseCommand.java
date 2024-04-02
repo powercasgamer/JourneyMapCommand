@@ -22,39 +22,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.mizule.jmc.client;
+package dev.mizule.jmc.client.command;
 
-import com.mojang.logging.LogUtils;
-import dev.mizule.jmc.client.command.CommandService;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import org.incendo.cloud.SenderMapper;
-import org.incendo.cloud.execution.ExecutionCoordinator;
-import org.incendo.cloud.fabric.FabricClientCommandManager;
-import org.slf4j.Logger;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.incendo.cloud.CommandManager;
 
 
-public class JMCClientMod implements ClientModInitializer {
+/**
+ * A command, registered with Cloud's {@link CommandManager} and operates on a {@code T}
+ * sender.
+ */
+public abstract class BaseCommand<T> {
 
-  public static final Logger LOGGER = LogUtils.getLogger();
-  private final CommandService commandService;
-  private final FabricClientCommandManager<FabricClientCommandSource> commandManager;
-
-  public JMCClientMod() {
-    this.commandManager = new FabricClientCommandManager<>(
-      ExecutionCoordinator.simpleCoordinator(),
-      SenderMapper.identity()
-    );
-
-    commandService = new CommandService(commandManager);
-    commandService.registerCommands();
-  }
-
-  @Override
-  public void onInitializeClient() {
-    ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
-      System.out.println("Hello Fabric world!");
-    });
-  }
+  /**
+   * Register this command with the {@code T}.
+   *
+   * @param commandManager The manager to register commands with. This assumes the manager
+   *                       supports {@code T}s as a sender.
+   */
+  public abstract void register(final @NonNull CommandManager<@NonNull T> commandManager);
 }
