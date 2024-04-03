@@ -27,6 +27,8 @@ package dev.mizule.jmc.client.command;
 import dev.mizule.jmc.client.JMCClientMod;
 import io.leangen.geantyref.TypeToken;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.incendo.cloud.Command;
@@ -40,13 +42,26 @@ import java.util.function.Function;
 @DefaultQualifier(NonNull.class)
 public final class CommandService {
 
-  private final CommandManager<FabricClientCommandSource> commandManager;
   public static final CloudKey<Boolean> EXPERIMENTAL = createKey("experimental", Boolean.class);
+  private final CommandManager<FabricClientCommandSource> commandManager;
 
   public CommandService(
     final CommandManager<FabricClientCommandSource> commandManager
   ) {
     this.commandManager = commandManager;
+
+    this.commandManager.registerCommandPreProcessor(context -> {
+      final boolean experimental = false; // somehow get the experimental status of the command
+      if (experimental) {
+        context.commandContext().sender().sendFeedback(Component.literal("This is an experimental command!").withStyle(ChatFormatting.RED, ChatFormatting.ITALIC));
+      }
+    });
+    this.commandManager.registerCommandPostProcessor(context -> {
+      final boolean experimental = context.command().commandMeta().get(EXPERIMENTAL);
+      if (experimental) {
+        context.commandContext().sender().sendFeedback(Component.literal("This is an experimental command!").withStyle(ChatFormatting.RED, ChatFormatting.ITALIC));
+      }
+    });
 
 //    exceptionHandler.registerExceptionHandlers(this.commandManager);
   }

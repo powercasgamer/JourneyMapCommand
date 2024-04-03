@@ -32,6 +32,7 @@ import dev.mizule.jmc.client.util.CoordinatesConverter;
 import journeymap.client.api.display.Waypoint;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import org.incendo.cloud.component.DefaultValue;
 import org.incendo.cloud.key.CloudKey;
@@ -82,15 +83,15 @@ public class ConvertCommand extends JMCCommand {
           y = 150;
         }
 
-
+        final Vec3i vec = new Vec3i(convertedCoords.first().intValue(), y, convertedCoords.second().intValue());
         final Waypoint waypoint = new Waypoint(
           BuildParameters.MOD_ID,
           ctx.get(NAME),
           ctx.sender().getWorld().dimension(),
-          BlockPos.containing(convertedCoords.first(), y, convertedCoords.second())
+          new BlockPos(vec)
         );
 
-        ctx.sender().getPlayer().sendMessage(text("Created waypoint " + ctx.get(NAME)));// + " at " + loc.getX() + ", " + loc.getY() + ", " + loc.getZ()));
+        ctx.sender().getPlayer().sendMessage(text("Created converted waypoint " + ctx.get(NAME) + " at " + vec.getX() + ", " + vec.getY() + ", " + vec.getZ()));
         try {
           JMCJourneyMapPlugin.instance().jmAPI.show(waypoint);
         } catch (Exception e) {

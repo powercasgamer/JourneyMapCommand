@@ -13,7 +13,7 @@
     "issues": "${github}/issues"
   },
   "license": "MIT",
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "client": [
       "dev.mizule.jmc.client.JMCClientMod"

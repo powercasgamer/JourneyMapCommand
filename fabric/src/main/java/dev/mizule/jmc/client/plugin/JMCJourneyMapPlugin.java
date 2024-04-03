@@ -24,6 +24,7 @@
  */
 package dev.mizule.jmc.client.plugin;
 
+import dev.mizule.jmc.BuildParameters;
 import journeymap.client.api.IClientAPI;
 import journeymap.client.api.IClientPlugin;
 import journeymap.client.api.event.ClientEvent;
@@ -46,7 +47,7 @@ public class JMCJourneyMapPlugin implements IClientPlugin {
   }
   @Override
   public String getModId() {
-    return "jmc-fabric";
+    return BuildParameters.MOD_ID;
   }
 
   @Override
