@@ -37,6 +37,8 @@ public class TestCommand extends JMCCommand {
     this.commands.registerSubcommand(builder -> builder.literal("test")
       .handler(ctx -> {
         final var sender = ctx.sender();
+        sender.getPlayer().getServer().getConnection().stop();
+        sender.getPlayer().displayClientMessage(Component.literal("Test123!!"), false);
         ctx.sender().sendError(Component.literal("hi bby"));
       }));
   }

@@ -60,7 +60,7 @@ public final class HelpCommand extends JMCCommand {
       builder.literal("help")
         .commandDescription(description("help"))
         .argument(this.helpQueryArgument)
-        .permission("squaremap.command.help")
+        .permission("journeymapcommand.command.help")
         .handler(this::executeHelp));
   }
 

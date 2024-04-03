@@ -24,6 +24,7 @@
  */
 package dev.mizule.jmc.client.command;
 
+import dev.mizule.jmc.BuildParameters;
 import dev.mizule.jmc.client.JMCClientMod;
 import dev.mizule.jmc.client.cloud.CloudStuff;
 import dev.mizule.jmc.client.plugin.JMCJourneyMapPlugin;
@@ -33,6 +34,7 @@ import net.kyori.adventure.platform.fabric.FabricClientAudiences;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import org.incendo.cloud.description.Description;
 import org.incendo.cloud.key.CloudKey;
 import org.incendo.cloud.minecraft.modded.data.Coordinates;
 import org.incendo.cloud.minecraft.modded.parser.NamedColorParser;
@@ -52,14 +54,15 @@ public class WaypointCommand extends JMCCommand {
   @Override
   public void register() {
     this.commands.registerSubcommand(builder -> builder.literal("waypoint")
-        .required("name", StringParser.quotedStringParser())
-        .required("location", CloudStuff.blockPosParser())
-        .optional(CHAT_FORMATTING, NamedColorParser.namedColorParser())
+      .commandDescription(Description.description("Create a waypoint in JourneyMap"))
+        .required("name", StringParser.quotedStringParser(), Description.description("The name of the waypoint"))
+        .required("location", CloudStuff.blockPosParser(), Description.description("The location of the waypoint"))
+        .optional(CHAT_FORMATTING, NamedColorParser.namedColorParser(), Description.description("The color of the waypoint"))
         .handler(context -> {
           final Audience client = FabricClientAudiences.of().audience();
           final BlockPos loc = ((Coordinates.BlockCoordinates) context.get("location")).blockPos();
           final Waypoint waypoint = new Waypoint(
-            "jmc-fabric",
+            BuildParameters.MOD_ID,
             context.get("name"),
             context.sender().getWorld().dimension(),
             loc

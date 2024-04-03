@@ -12,7 +12,10 @@ val minecraftVersion = libs.versions.minecraft.get()
 val journeymap_api_version = "1.20.4-1.9-fabric-SNAPSHOT"
 dependencies {
   minecraft(libs.minecraft)
-  mappings(loom.officialMojangMappings())
+  mappings(loom.layered {
+    officialMojangMappings()
+    parchment("org.parchmentmc.data:parchment-1.20.4:2024.02.25@zip")
+  })
   modImplementation(libs.fabricLoader)
   modImplementation(libs.fabricApi)
 
@@ -63,6 +66,7 @@ sourceSets {
   main {
     blossom {
       javaSources {
+        property("modid", project.name)
         property("version", project.versionString())
         property("gitCommit", project.lastCommitHash(false))
         property("minecraftVersion", libs.versions.minecraft.get())

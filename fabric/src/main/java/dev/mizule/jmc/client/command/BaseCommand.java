@@ -27,7 +27,6 @@ package dev.mizule.jmc.client.command;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.incendo.cloud.CommandManager;
 
-
 /**
  * A command, registered with Cloud's {@link CommandManager} and operates on a {@code T}
  * sender.

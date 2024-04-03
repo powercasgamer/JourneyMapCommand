@@ -24,6 +24,7 @@
  */
 package dev.mizule.jmc.client.command;
 
+import dev.mizule.jmc.client.JMCClientMod;
 import io.leangen.geantyref.TypeToken;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -40,6 +41,7 @@ import java.util.function.Function;
 public final class CommandService {
 
   private final CommandManager<FabricClientCommandSource> commandManager;
+  public static final CloudKey<Boolean> EXPERIMENTAL = createKey("experimental", Boolean.class);
 
   public CommandService(
     final CommandManager<FabricClientCommandSource> commandManager
@@ -56,14 +58,16 @@ public final class CommandService {
   public void registerCommands() {
     final List<? extends JMCCommand> commands = List.of(
       new TestCommand(this),
-      new HelpCommand(this)
+      new HelpCommand(this),
+      new WaypointCommand(this),
+      new ConvertCommand(this)
     );
 
     for (final JMCCommand command : commands) {
       try {
         command.register();
       } catch (final Exception e) {
-        e.printStackTrace();
+        JMCClientMod.LOGGER.error("Unable to register command: " + command.getClass().getSimpleName(), e);
       }
     }
   }

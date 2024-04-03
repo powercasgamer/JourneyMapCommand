@@ -22,39 +22,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.mizule.jmc.client;
+package dev.mizule.jmc.client.util;
 
-import com.mojang.logging.LogUtils;
-import dev.mizule.jmc.client.command.CommandService;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import org.incendo.cloud.SenderMapper;
-import org.incendo.cloud.execution.ExecutionCoordinator;
-import org.incendo.cloud.fabric.FabricClientCommandManager;
-import org.slf4j.Logger;
+import org.incendo.cloud.type.tuple.Pair;
 
+public class CoordinatesConverter {
 
-public class JMCClientMod implements ClientModInitializer {
-
-  public static final Logger LOGGER = LogUtils.getLogger();
-  private final CommandService commandService;
-  private final FabricClientCommandManager<FabricClientCommandSource> commandManager;
-
-  public JMCClientMod() {
-    this.commandManager = new FabricClientCommandManager<>(
-      ExecutionCoordinator.simpleCoordinator(),
-      SenderMapper.identity()
-    );
-
-    commandService = new CommandService(commandManager);
-    commandService.registerCommands();
+  // Method to convert Overworld coordinates to Nether coordinates
+  public static Pair<Double, Double> toNetherCoordinates(double x, double z) {
+    double netherX = x / 8;
+    double netherZ = z / 8;
+    return Pair.of(netherX, netherZ);
   }
 
-  @Override
-  public void onInitializeClient() {
-    ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
-      LOGGER.info("Hello Fabric world!");
-    });
+  // Method to convert Nether coordinates to Overworld coordinates
+  public static Pair<Double, Double> toOverworldCoordinates(double x, double z) {
+    double overworldX = x * 8;
+    double overworldZ = z * 8;
+    return Pair.of(overworldX, overworldZ);
   }
 }
