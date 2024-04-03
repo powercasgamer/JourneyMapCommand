@@ -22,36 +22,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.mizule.jmc.client.plugin;
+package dev.mizule.jmc.client.command;
 
-import dev.mizule.jmc.BuildParameters;
-import journeymap.client.api.IClientAPI;
-import journeymap.client.api.IClientPlugin;
-import journeymap.client.api.event.ClientEvent;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.incendo.cloud.CommandManager;
 
-public class JMCJourneyMapPlugin implements IClientPlugin {
-  private static JMCJourneyMapPlugin INSTANCE;
-  public IClientAPI jmAPI = null;
+/**
+ * A command, registered with Cloud's {@link CommandManager} and operates on a {@code T}
+ * sender.
+ */
+public abstract class BaseCommand<T> {
 
-  public JMCJourneyMapPlugin() {
-    INSTANCE = this;
-  }
-
-  public static JMCJourneyMapPlugin instance() {
-    return INSTANCE;
-  }
-
-  @Override
-  public void initialize(final IClientAPI jmAPI) {
-    this.jmAPI = jmAPI;
-  }
-  @Override
-  public String getModId() {
-    return BuildParameters.MOD_ID;
-  }
-
-  @Override
-  public void onEvent(final ClientEvent event) {
-  }
-
+  /**
+   * Register this command with the {@code T}.
+   *
+   * @param commandManager The manager to register commands with. This assumes the manager
+   *                       supports {@code T}s as a sender.
+   */
+  public abstract void register(final @NonNull CommandManager<@NonNull T> commandManager);
 }

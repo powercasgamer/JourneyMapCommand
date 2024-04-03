@@ -22,36 +22,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.mizule.jmc.client.plugin;
+package dev.mizule.jmc.client.command;
 
-import dev.mizule.jmc.BuildParameters;
-import journeymap.client.api.IClientAPI;
-import journeymap.client.api.IClientPlugin;
-import journeymap.client.api.event.ClientEvent;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.framework.qual.DefaultQualifier;
 
-public class JMCJourneyMapPlugin implements IClientPlugin {
-  private static JMCJourneyMapPlugin INSTANCE;
-  public IClientAPI jmAPI = null;
+@DefaultQualifier(NonNull.class)
+public abstract class JMCCommand {
+  protected final CommandService commands;
 
-  public JMCJourneyMapPlugin() {
-    INSTANCE = this;
+  protected JMCCommand(final CommandService commands) {
+    this.commands = commands;
   }
 
-  public static JMCJourneyMapPlugin instance() {
-    return INSTANCE;
-  }
-
-  @Override
-  public void initialize(final IClientAPI jmAPI) {
-    this.jmAPI = jmAPI;
-  }
-  @Override
-  public String getModId() {
-    return BuildParameters.MOD_ID;
-  }
-
-  @Override
-  public void onEvent(final ClientEvent event) {
-  }
-
+  public abstract void register();
 }

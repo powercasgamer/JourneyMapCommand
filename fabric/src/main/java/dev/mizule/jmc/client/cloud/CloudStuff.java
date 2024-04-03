@@ -27,6 +27,8 @@ package dev.mizule.jmc.client.cloud;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.commands.arguments.coordinates.ColumnPosArgument;
+import net.minecraft.commands.arguments.coordinates.Vec2Argument;
+import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -90,6 +92,37 @@ public class CloudStuff {
       .flatMapSuccess(CloudStuff::mapToCoordinates);
 
     return ParserDescriptor.of(parser, Coordinates.ColumnCoordinates.class);
+  }
+
+  /**
+   * A parser for coordinates, relative or absolute, from 2 doubles for x and z,
+   * with y always defaulting to 0.
+   *
+   * @param centerIntegers whether to center integers at x.5
+   * @param <C>            sender type
+   * @return a parser descriptor
+   */
+  public static <C> @NonNull ParserDescriptor<C, Coordinates.CoordinatesXZ> vec2Parser(final boolean centerIntegers) {
+    ArgumentParser<C, Coordinates.CoordinatesXZ> parser = new WrappedBrigadierParser<C,
+      net.minecraft.commands.arguments.coordinates.Coordinates>(new Vec2Argument(centerIntegers))
+      .flatMapSuccess(CloudStuff::mapToCoordinates);
+
+    return ParserDescriptor.of(parser, Coordinates.CoordinatesXZ.class);
+  }
+
+  /**
+   * A parser for coordinates, relative or absolute, from 3 doubles.
+   *
+   * @param centerIntegers whether to center integers at x.5
+   * @param <C>            sender type
+   * @return a parser descriptor
+   */
+  public static <C> @NonNull ParserDescriptor<C, Coordinates> vec3Parser(final boolean centerIntegers) {
+    ArgumentParser<C, Coordinates> parser = new WrappedBrigadierParser<C,
+      net.minecraft.commands.arguments.coordinates.Coordinates>(Vec3Argument.vec3(centerIntegers))
+      .flatMapSuccess(CloudStuff::mapToCoordinates);
+
+    return ParserDescriptor.of(parser, Coordinates.class);
   }
 
   @SuppressWarnings("unchecked")

@@ -51,6 +51,13 @@ fun Project.currentBranch(): String {
     return Repository.shortenRefName(ref.name)
 }
 
+fun Project.currentTag(): String {
+  val indraGit = the<IndraGitExtension>().takeIf { it.isPresent }
+  return indraGit?.headTag()?.name?.let { return it }?: "unknown"
+}
+
+fun Project.git():IndraGitExtension = the<IndraGitExtension>().takeIf { it.isPresent } ?: error("Git not found")
+
 fun ShadowJar.relocate(pkg: String){
     this.relocate(pkg, "dev.mizule.jmc.libs.$pkg")
 }

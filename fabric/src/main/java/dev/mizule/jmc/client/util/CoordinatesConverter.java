@@ -22,36 +22,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.mizule.jmc.client.plugin;
+package dev.mizule.jmc.client.util;
 
-import dev.mizule.jmc.BuildParameters;
-import journeymap.client.api.IClientAPI;
-import journeymap.client.api.IClientPlugin;
-import journeymap.client.api.event.ClientEvent;
+import org.incendo.cloud.type.tuple.Pair;
 
-public class JMCJourneyMapPlugin implements IClientPlugin {
-  private static JMCJourneyMapPlugin INSTANCE;
-  public IClientAPI jmAPI = null;
+public class CoordinatesConverter {
 
-  public JMCJourneyMapPlugin() {
-    INSTANCE = this;
+  // Method to convert Overworld coordinates to Nether coordinates
+  public static Pair<Double, Double> toNetherCoordinates(double x, double z) {
+    double netherX = x / 8;
+    double netherZ = z / 8;
+    return Pair.of(netherX, netherZ);
   }
 
-  public static JMCJourneyMapPlugin instance() {
-    return INSTANCE;
+  // Method to convert Nether coordinates to Overworld coordinates
+  public static Pair<Double, Double> toOverworldCoordinates(double x, double z) {
+    double overworldX = x * 8;
+    double overworldZ = z * 8;
+    return Pair.of(overworldX, overworldZ);
   }
-
-  @Override
-  public void initialize(final IClientAPI jmAPI) {
-    this.jmAPI = jmAPI;
-  }
-  @Override
-  public String getModId() {
-    return BuildParameters.MOD_ID;
-  }
-
-  @Override
-  public void onEvent(final ClientEvent event) {
-  }
-
 }

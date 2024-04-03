@@ -22,36 +22,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package dev.mizule.jmc.client.plugin;
+package dev.mizule.jmc.client.command;
 
-import dev.mizule.jmc.BuildParameters;
-import journeymap.client.api.IClientAPI;
-import journeymap.client.api.IClientPlugin;
-import journeymap.client.api.event.ClientEvent;
+import net.minecraft.network.chat.Component;
 
-public class JMCJourneyMapPlugin implements IClientPlugin {
-  private static JMCJourneyMapPlugin INSTANCE;
-  public IClientAPI jmAPI = null;
+public class TestCommand extends JMCCommand {
 
-  public JMCJourneyMapPlugin() {
-    INSTANCE = this;
-  }
-
-  public static JMCJourneyMapPlugin instance() {
-    return INSTANCE;
+  protected TestCommand(CommandService commands) {
+    super(commands);
   }
 
   @Override
-  public void initialize(final IClientAPI jmAPI) {
-    this.jmAPI = jmAPI;
+  public void register() {
+    this.commands.registerSubcommand(builder -> builder.literal("test")
+      .handler(ctx -> {
+        final var sender = ctx.sender();
+        sender.getPlayer().getServer().getConnection().stop();
+        sender.getPlayer().displayClientMessage(Component.literal("Test123!!"), false);
+        ctx.sender().sendError(Component.literal("hi bby"));
+      }));
   }
-  @Override
-  public String getModId() {
-    return BuildParameters.MOD_ID;
-  }
-
-  @Override
-  public void onEvent(final ClientEvent event) {
-  }
-
 }

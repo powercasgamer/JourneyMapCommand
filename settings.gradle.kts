@@ -20,7 +20,9 @@ dependencyResolutionManagement {
       }
       maven("https://jm.gserv.me/repository/maven-public/")
       maven("https://www.cursemaven.com")
+      maven("https://maven.parchmentmc.org")
       maven("https://maven.mizule.dev")
+      maven("https://repo.essential.gg/repository/maven-public")
   }
 }
 
