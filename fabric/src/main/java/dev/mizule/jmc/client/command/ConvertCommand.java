@@ -24,14 +24,12 @@
  */
 package dev.mizule.jmc.client.command;
 
-import dev.mizule.jmc.BuildParameters;
-import dev.mizule.jmc.client.JMCClientMod;
 import dev.mizule.jmc.client.cloud.CloudStuff;
-import dev.mizule.jmc.client.plugin.JMCJourneyMapPlugin;
 import dev.mizule.jmc.client.util.CoordinatesConverter;
-import journeymap.client.api.display.Waypoint;
+import net.kyori.adventure.audience.MessageType;
+import net.kyori.adventure.chat.ChatType;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import org.incendo.cloud.component.DefaultValue;
@@ -84,20 +82,54 @@ public class ConvertCommand extends JMCCommand {
         }
 
         final Vec3i vec = new Vec3i(convertedCoords.first().intValue(), y, convertedCoords.second().intValue());
-        final Waypoint waypoint = new Waypoint(
-          BuildParameters.MOD_ID,
-          ctx.get(NAME),
-          ctx.sender().getWorld().dimension(),
-          new BlockPos(vec)
-        );
 
-        ctx.sender().getPlayer().sendMessage(text("Created converted waypoint " + ctx.get(NAME) + " at " + vec.getX() + ", " + vec.getY() + ", " + vec.getZ()));
-        try {
-          JMCJourneyMapPlugin.instance().jmAPI.show(waypoint);
-        } catch (Exception e) {
-          ctx.sender().sendError(Component.literal("Failed to create waypoint"));
-          JMCClientMod.LOGGER.error("Failed to create waypoint", e);
-        }
+        // Message:
+        // X: 1 -> 8
+        // Y: 1 -> 1
+        // Z: 1 -> 8
+
+        ctx.sender().getPlayer().sendMessage(text()
+          .append(text("Converted coordinates: "))
+            .appendNewline()
+          .append(text("X: " + vec.getX()))
+          .append(text(", Y: " + vec.getY()))
+          .append(text(", Z: " + vec.getZ()))
+          .build());
+        ctx.sender().getPlayer().sendMessage(text()
+          .append(text("X: %s -> %s".formatted(coords.position().x, vec.getX())))
+          .appendNewline()
+          .append(text("Y: %s -> %s".formatted(coords.position().y, vec.getY())))
+          .appendNewline()
+          .append(text("Z: %s -> %s".formatted(coords.position().z, vec.getZ())))
+        );
+        final String format = "[name: \"%s\", x:%s, y:%s, z:%s]";
+        ctx.sender().getPlayer().sendMessage(text()
+          .append(text("Waypoint: "))
+            .append(text(format.formatted("Converted", vec.getX(), vec.getY(), vec.getZ())))
+          );
+        ctx.sender().getPlayer().sendMessage(text(format.formatted("test", vec.getX(), vec.getY(), vec.getZ())));
+        ctx.sender().getPlayer().sendMessage(text(format.formatted("test", vec.getX(), vec.getY(), vec.getZ())), MessageType.CHAT);
+        ctx.sender().getPlayer().sendMessage(text(format.formatted("test", vec.getX(), vec.getY(), vec.getZ())), ChatType.CHAT);
+        System.out.println(format.formatted("test", vec.getX(), vec.getY(), vec.getZ()));
+        ctx.sender().getPlayer().sendSystemMessage(Component.literal(format.formatted("test", vec.getX(), vec.getY(), vec.getZ())));
+        Minecraft.getInstance().player.sendMessage(text(format.formatted("test", vec.getX(), vec.getY(), vec.getZ())));
+        Minecraft.getInstance().player.sendSystemMessage(Component.literal(format.formatted("test", vec.getX(), vec.getY(), vec.getZ())));
+
+        System.out.println(format.formatted("test", vec.getX(), vec.getY(), vec.getZ()));
+//        final Waypoint waypoint = new Waypoint(
+//          BuildParameters.MOD_ID,
+//          ctx.get(NAME),
+//          ctx.sender().getWorld().dimension(),
+//          new BlockPos(vec)
+//        );
+//
+//        ctx.sender().getPlayer().sendMessage(text("Created converted waypoint " + ctx.get(NAME) + " at " + vec.getX() + ", " + vec.getY() + ", " + vec.getZ()));
+//        try {
+//          JMCJourneyMapPlugin.instance().jmAPI.show(waypoint);
+//        } catch (Exception e) {
+//          ctx.sender().sendError(Component.literal("Failed to create waypoint"));
+//          JMCClientMod.LOGGER.error("Failed to create waypoint", e);
+//        }
       }));
   }
 

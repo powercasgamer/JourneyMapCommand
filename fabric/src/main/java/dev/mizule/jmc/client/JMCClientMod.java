@@ -25,30 +25,43 @@
 package dev.mizule.jmc.client;
 
 import com.mojang.logging.LogUtils;
+import dev.mizule.jmc.BuildParameters;
 import dev.mizule.jmc.client.command.CommandService;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
 import org.incendo.cloud.SenderMapper;
 import org.incendo.cloud.execution.ExecutionCoordinator;
 import org.incendo.cloud.fabric.FabricClientCommandManager;
 import org.slf4j.Logger;
-
 
 public class JMCClientMod implements ClientModInitializer {
 
   public static final Logger LOGGER = LogUtils.getLogger();
   private final CommandService commandService;
   private final FabricClientCommandManager<FabricClientCommandSource> commandManager;
+  private final ModContainer modContainer;
 
   public JMCClientMod() {
+    this.modContainer = FabricLoader.getInstance().getModContainer(BuildParameters.MOD_ID).orElseThrow(() -> new RuntimeException("Could not get the JMC mod container."));
     this.commandManager = new FabricClientCommandManager<>(
       ExecutionCoordinator.simpleCoordinator(),
       SenderMapper.identity()
     );
 
+
     commandService = new CommandService(commandManager);
     commandService.registerCommands();
+  }
+
+  public CommandService commandService() {
+    return commandService;
+  }
+
+  public ModContainer modContainer() {
+    return modContainer;
   }
 
   @Override

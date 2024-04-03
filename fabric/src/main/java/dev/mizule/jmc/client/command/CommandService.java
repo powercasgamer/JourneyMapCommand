@@ -31,7 +31,6 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.fabric.FabricClientAudiences;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -55,15 +54,8 @@ public final class CommandService {
   ) {
     this.commandManager = commandManager;
 
-    this.commandManager.registerCommandPreProcessor(context -> {
-      final boolean experimental = false; // somehow get the experimental status of the command
-      if (experimental) {
-        final Audience sender = FabricClientAudiences.of().audience();
-        sender.sendMessage(Component.text("This is an experimental command!", NamedTextColor.RED, TextDecoration.ITALIC));
-      }
-    });
     this.commandManager.registerCommandPostProcessor(context -> {
-      final boolean experimental = context.command().commandMeta().get(EXPERIMENTAL);
+      final boolean experimental = context.command().commandMeta().getOrDefault(EXPERIMENTAL, false);
       if (experimental) {
         final Audience sender = FabricClientAudiences.of().audience();
         sender.sendMessage(Component.text("This is an experimental command!", NamedTextColor.RED, TextDecoration.ITALIC));
@@ -82,8 +74,11 @@ public final class CommandService {
       new TestCommand(this),
       new HelpCommand(this),
       new WaypointCommand(this),
-      new ConvertCommand(this)
+      new ConvertCommand(this),
+      new InfoCommand(this)
     );
+
+    register(rootBuilder());
 
     for (final JMCCommand command : commands) {
       try {
@@ -111,13 +106,7 @@ public final class CommandService {
       final Audience sender = FabricClientAudiences.of().audience();
 
       sender.sendMessage(Component.text()
-        .append(Component.text("JourneyMapCommand v" + BuildParameters.VERSION)
-          .hoverEvent(HoverEvent.showText(Component.textOfChildren(
-            Component.text("Git Commit: " + BuildParameters.GIT_COMMIT),
-            Component.text("Git Branch: " + BuildParameters.GIT_BRANCH),
-            Component.text("Fabric Loader Version: " + BuildParameters.FABRIC_LOADER_VERSION),
-            Component.text("Fabric API Version: " + BuildParameters.FABRIC_API_VERSION)
-          ))))
+        .append(Component.text("JourneyMapCommand v" + BuildParameters.SHORT_VERSION))
         .append(Component.text(" - "))
         .append(Component.text("Type '/jmc help' for a list of commands."))
       );

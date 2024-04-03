@@ -26,7 +26,10 @@ package dev.mizule.jmc;
 
 public class BuildParameters {
     public static final String MOD_ID = "{{ modid }}";
+    public static final String SHORT_VERSION = "{{ shortVersion }}";
     public static final String VERSION = "{{ version }}";
+    public static final String GIT_URL = "{{ gitUrl | default("unknown") }}";
+    public static final String GIT_TAG = "{{ gitTag | default("unknown") }}";
     public static final String GIT_BRANCH = "{{ gitBranch | default("unknown") }}";
     public static final String GIT_COMMIT = "{{ gitCommit | default("unknown") }}";
     public static final String MINECRAFT_VERSION = "{{ minecraftVersion }}";
