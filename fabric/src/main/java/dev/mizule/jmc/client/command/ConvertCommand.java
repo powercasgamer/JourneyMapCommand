@@ -27,7 +27,6 @@ package dev.mizule.jmc.client.command;
 import dev.mizule.jmc.client.cloud.CloudStuff;
 import dev.mizule.jmc.client.util.CoordinatesConverter;
 import net.kyori.adventure.audience.MessageType;
-import net.kyori.adventure.chat.ChatType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Vec3i;
@@ -109,7 +108,6 @@ public class ConvertCommand extends JMCCommand {
           );
         ctx.sender().getPlayer().sendMessage(text(format.formatted("test", vec.getX(), vec.getY(), vec.getZ())));
         ctx.sender().getPlayer().sendMessage(text(format.formatted("test", vec.getX(), vec.getY(), vec.getZ())), MessageType.CHAT);
-        ctx.sender().getPlayer().sendMessage(text(format.formatted("test", vec.getX(), vec.getY(), vec.getZ())), ChatType.CHAT);
         System.out.println(format.formatted("test", vec.getX(), vec.getY(), vec.getZ()));
         ctx.sender().getPlayer().sendSystemMessage(Component.literal(format.formatted("test", vec.getX(), vec.getY(), vec.getZ())));
         Minecraft.getInstance().player.sendMessage(text(format.formatted("test", vec.getX(), vec.getY(), vec.getZ())));
