@@ -68,6 +68,7 @@ sourceSets {
       javaSources {
         property("modid", project.name)
         property("version", project.versionString())
+        property("gitBranch", project.currentBranch())
         property("gitCommit", project.lastCommitHash(false))
         property("minecraftVersion", libs.versions.minecraft.get())
         property("fabricLoaderVersion", libs.versions.fabricLoader.get())

@@ -24,11 +24,16 @@
  */
 package dev.mizule.jmc.client.command;
 
+import dev.mizule.jmc.BuildParameters;
 import dev.mizule.jmc.client.JMCClientMod;
 import io.leangen.geantyref.TypeToken;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.platform.fabric.FabricClientAudiences;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.incendo.cloud.Command;
@@ -53,13 +58,15 @@ public final class CommandService {
     this.commandManager.registerCommandPreProcessor(context -> {
       final boolean experimental = false; // somehow get the experimental status of the command
       if (experimental) {
-        context.commandContext().sender().sendFeedback(Component.literal("This is an experimental command!").withStyle(ChatFormatting.RED, ChatFormatting.ITALIC));
+        final Audience sender = FabricClientAudiences.of().audience();
+        sender.sendMessage(Component.text("This is an experimental command!", NamedTextColor.RED, TextDecoration.ITALIC));
       }
     });
     this.commandManager.registerCommandPostProcessor(context -> {
       final boolean experimental = context.command().commandMeta().get(EXPERIMENTAL);
       if (experimental) {
-        context.commandContext().sender().sendFeedback(Component.literal("This is an experimental command!").withStyle(ChatFormatting.RED, ChatFormatting.ITALIC));
+        final Audience sender = FabricClientAudiences.of().audience();
+        sender.sendMessage(Component.text("This is an experimental command!", NamedTextColor.RED, TextDecoration.ITALIC));
       }
     });
 
@@ -100,7 +107,21 @@ public final class CommandService {
       "journeymapcommand",
       Description.of(String.format("journeymapcommand. '/%s help'", "journeymapcommand")),
       "jmc"
-    );
+    ).handler(ctx -> {
+      final Audience sender = FabricClientAudiences.of().audience();
+
+      sender.sendMessage(Component.text()
+        .append(Component.text("JourneyMapCommand v" + BuildParameters.VERSION)
+          .hoverEvent(HoverEvent.showText(Component.textOfChildren(
+            Component.text("Git Commit: " + BuildParameters.GIT_COMMIT),
+            Component.text("Git Branch: " + BuildParameters.GIT_BRANCH),
+            Component.text("Fabric Loader Version: " + BuildParameters.FABRIC_LOADER_VERSION),
+            Component.text("Fabric API Version: " + BuildParameters.FABRIC_API_VERSION)
+          ))))
+        .append(Component.text(" - "))
+        .append(Component.text("Type '/jmc help' for a list of commands."))
+      );
+    });
   }
 
   public CommandManager<FabricClientCommandSource> commandManager() {
