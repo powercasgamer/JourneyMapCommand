@@ -1,5 +1,5 @@
 [versions]
-adventure = "4.16.0"
+adventure = "4.17.0"
 adventurePlatform = "4.3.2"
 cloud = "2.0.0-beta.4"
 cloudMinecraft = "2.0.0-beta.5"
