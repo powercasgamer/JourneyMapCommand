@@ -38,8 +38,8 @@ pluginManagement {
 
 plugins {
   id("quiet-fabric-loom") version "1.6-SNAPSHOT"
-  id("org.spongepowered.gradle.vanilla") version "0.2.1-SNAPSHOT"
-  id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+  id("org.spongepowered.gradle.vanilla") version "0.3.2"
+  id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0"
 }
 
 rootProject.name = "JourneyMapCommand"
